@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const app = express();
-const port = 5003;
+const port = process.env.PORT || 80;
 
 //import the file here
 const loginrouter = require('./routes/login');
