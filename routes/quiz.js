@@ -22,23 +22,17 @@ router.route('/:id').get((req, res) => {
 	.catch(err => res.status(400).json('Errors '+err));
 });
 
-router.route('/quizzy/current').get((req, res) => {
+router.route('/quizcurr/current').get((req, res) => {
 	var today = new Date()
-	//var today = k.toLocaleString("en-US", {timeZone: "America/New_York"});
     var dd = today.getDate();
     var mm = today.getMonth()+1; 
     var yyyy = today.getFullYear();
-    if(mm < 10){
-        mm = '0'+mm}
-    if(dd < 10){
-        dd = '0'+dd
-    } 
+    if(mm < 10){mm = '0'+mm}
+    if(dd < 10){dd = '0'+dd} 
     var hr = today.getHours();
-    if(hr<10)
-    {hr='0'+hr};
+    if(hr<10){hr='0'+hr}
     var min = today.getMinutes();
-    if(min<10)
-    {min='0'+min};
+    if(min<10){min='0'+min}
     var time = hr+":"+min
     today = yyyy+'/'+mm+"/"+dd;
 	Quiz.find({$and :[{"date":{$eq:today}},{"ftime":{$gte:time}},{"stime":{$lte: time}}]})
@@ -46,9 +40,8 @@ router.route('/quizzy/current').get((req, res) => {
 	.catch(err => res.status(400).json('Errors '+err));
 });
 
-router.route('/quizcurr/current').get((req, res) => {
+router.route('/quizzy/current').get((req, res) => {
 	var today = new Date()
-	//var today = k.toLocaleString("en-US", {timeZone: "America/New_York"});
     var dd = today.getDate();
     var mm = today.getMonth()+1; 
     var yyyy = today.getFullYear();
@@ -59,10 +52,10 @@ router.route('/quizcurr/current').get((req, res) => {
     } 
     var hr = today.getHours();
     if(hr<10)
-    {hr='0'+hr};
+    {hr='0'+hr}
     var min = today.getMinutes();
     if(min<10)
-    {min='0'+min};
+    {min='0'+min}
     var time = hr+":"+min
     today = yyyy+'/'+mm+"/"+dd;
 	Quiz.find({$and :[{"date":{$eq:today}}]})
