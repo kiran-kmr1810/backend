@@ -22,8 +22,9 @@ router.route('/:id').get((req, res) => {
 	.catch(err => res.status(400).json('Errors '+err));
 });
 
-router.route('/quizcurr/current').get((req, res) => {
-	var today = new Date();
+router.route('/quizzy/current').get((req, res) => {
+	var today = new Date()
+	//var today = k.toLocaleString("en-US", {timeZone: "America/New_York"});
     var dd = today.getDate();
     var mm = today.getMonth()+1; 
     var yyyy = today.getFullYear();
@@ -41,6 +42,30 @@ router.route('/quizcurr/current').get((req, res) => {
     var time = hr+":"+min
     today = yyyy+'/'+mm+"/"+dd;
 	Quiz.find({$and :[{"date":{$eq:today}},{"ftime":{$gte:time}},{"stime":{$lte: time}}]})
+	.then(out => res.json(out))
+	.catch(err => res.status(400).json('Errors '+err));
+});
+
+router.route('/quizcurr/current').get((req, res) => {
+	var today = new Date()
+	//var today = k.toLocaleString("en-US", {timeZone: "America/New_York"});
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; 
+    var yyyy = today.getFullYear();
+    if(mm < 10){
+        mm = '0'+mm}
+    if(dd < 10){
+        dd = '0'+dd
+    } 
+    var hr = today.getHours();
+    if(hr<10)
+    {hr='0'+hr};
+    var min = today.getMinutes();
+    if(min<10)
+    {min='0'+min};
+    var time = hr+":"+min
+    today = yyyy+'/'+mm+"/"+dd;
+	Quiz.find({$and :[{"date":{$eq:today}}]})
 	.then(out => res.json(out))
 	.catch(err => res.status(400).json('Errors '+err));
 });
@@ -64,5 +89,10 @@ router.route('/add').post((req, res) => {
 	  .catch(err => res.status(400).json('Error: ' + err));
   });
 
+router.route('/delete/:id').delete((req, res) => {
+	Quiz.findByIdAndDelete(req.params.id)
+	  .then(() => res.json('Quiz deleted.'))
+	  .catch(err => res.status(400).json('Error: ' + err));
+  });
 
 module.exports = router
